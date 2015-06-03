@@ -1,0 +1,21 @@
+{
+  "name": "joshkosmala/silverstripe-mappable",
+  "description": "Add a Google Map with Longitude/Latitude points of interest to your SilverStripe pages",
+  "type": "silverstripe-module",
+  "homepage": "https://github.com/joshkosmala/silverstripe-mappable",
+  "keywords": ["silverstripe", "cwp", "common web platform", "maps", "map", "google maps"],
+  "license": "MIT",
+  "authors": [
+    {"name": "Josh Kosmala","email": "josh@novaweb.co.nz"}
+  ],
+  "support": {
+    "issues": "https://github.com/joshkosmala/silverstripe-mappable/issues"
+  },
+  "require": {
+    "silverstripe/cms": "~3.1",
+    "silverstripe/framework": "~3.1"
+  },
+  "extra": {
+    "installer-name": "mappable"
+  }
+}
