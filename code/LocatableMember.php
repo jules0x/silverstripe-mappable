@@ -13,20 +13,19 @@ class LocatableMember extends DataExtension {
 		"Latitude" => "Varchar"
 	);
 
-/*	public function onBeforeWrite() {
-		die("Convert address to point");
+	public function onBeforeWrite() {
 		self::convertAddressToPoint();
-	} */
+	}
 
 	function convertAddressToPoint() {
 		$records = Member::get();
 		foreach($records as $record) {
 			if (!$record->Latitude) {
-				$address = $record->Address . " " . $record->Suburb . " " . $record->Region;
+				$address = $record->Address1 . " " . $record->Suburb . " " . $record->Region;
 				$point = GoogleGeocoding::address_to_point($address);
 				$record->Latitude = $point['Latitude'];
 				$record->Longitude = $point['Longitude'];
-				$record->write();
+				//$record->write();
 			}
 		}
 	}

@@ -9,7 +9,6 @@ class LocationMapPage_Controller extends Page_Controller {
 		public function init() {
 			parent::init();
 		Requirements::javascript("framework/thirdparty/jquery/jquery.js");
-		//	Requirements::javascript("http://maps.google.com/maps/api/js?sensor=false"); VERSION 2 (Depreciated)
 		Requirements::javascript("http://maps.googleapis.com/maps/api/js?key=AIzaSyAAaa_ApoYASmy5j35SKI7q1UcLzvdxf2E&sensor=false");
 		Requirements::javascript(MODULE_MAPPABLE_DIR.'/javascript/GoogleMapConfig.js');
 		Requirements::javascriptTemplate(MODULE_MAPPABLE_DIR.'/javascript/GoogleMapConfig.js', array(
