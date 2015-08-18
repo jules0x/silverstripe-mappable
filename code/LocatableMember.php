@@ -15,6 +15,7 @@ class LocatableMember extends DataExtension {
 
 	public function onBeforeWrite() {
 		self::convertAddressToPoint();
+		parent::onBeforeWrite();
 	}
 
 	function convertAddressToPoint() {
