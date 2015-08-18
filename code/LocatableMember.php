@@ -14,29 +14,15 @@ class LocatableMember extends DataExtension {
 	);
 
 	public function onBeforeWrite() {
-		// Convert address to Latitude/Longitude
-		$this->convertAddressToPoint();
-		parent::onBeforeWrite();
+	    if ($this->owner->Address1) {
+	        // Get the member's address
+	        $address = $this->owner->Address1 . " " . $this->owner->Suburb . " " . $this->owner->Region;
+	        // Run it through GoogleGeocoding's address_to_point function (RestfulService/XML)
+	        $point = GoogleGeocoding::address_to_point($address);
+	        // Set the Latitude and Longitude values with the reponse
+	        $this->owner->Latitude = $point['Latitude'];
+	        $this->owner->Longitude  = $point['Longitude'];
+	    }
+	    parent::onBeforeWrite();
 	}
-
-	private function convertAddressToPoint() {
-		// Get the current member
-		$member = Member::get()->byID($this->owner->ID);
-		// if Latitude is not populated, there must be no Geocoding saved in the database, let's populate it
-		if(!$member->Latitude) {
-			if(!$member->Address1){
-				user_error('The member needs to have an address', E_USER_ERROR);
-        		exit();
-			}
-			// Get the member's address
-			$address = $member->Address1 . " " . $member->Suburb . " " . $member->Region;
-			// Run it through GoogleGeocoding's address_to_point function (RestfulService/XML)
-			$point = GoogleGeocoding::address_to_point($address);
-			// Set the Latitude and Longitude values with the reponse
-			$member->Latitude = $point['Latitude'];
-			$member->Longitude = $point['Longitude'];
-			return;
-		}
-	}
-
 }
