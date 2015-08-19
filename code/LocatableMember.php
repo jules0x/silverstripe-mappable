@@ -14,15 +14,17 @@ class LocatableMember extends DataExtension {
 	);
 
 	public function onBeforeWrite() {
-	    if ($this->owner->Address1) {
-	        // Get the member's address
-	        $address = $this->owner->Address1 . " " . $this->owner->Suburb . " " . $this->owner->Region;
-	        // Run it through GoogleGeocoding's address_to_point function (RestfulService/XML)
-	        $point = GoogleGeocoding::address_to_point($address);
-	        // Set the Latitude and Longitude values with the reponse
-	        $this->owner->Latitude = $point['Latitude'];
-	        $this->owner->Longitude  = $point['Longitude'];
-	    }
-	    parent::onBeforeWrite();
+		if(!$this->owner->Latitude || $this->owner->isChanged('Address1')){
+			if ($this->owner->Address1) {
+				 // Get the member's address
+				 $address = $this->owner->Address1 . " " . $this->owner->Suburb . " " . $this->owner->Region;
+				 // Run it through GoogleGeocoding's address_to_point function (RestfulService/XML)
+				 $point = GoogleGeocoding::address_to_point($address);
+				 // Set the Latitude and Longitude values with the reponse
+				 $this->owner->Latitude = $point['Latitude'];
+				 $this->owner->Longitude  = $point['Longitude'];
+			}
+			parent::onBeforeWrite();
+		}
 	}
 }
