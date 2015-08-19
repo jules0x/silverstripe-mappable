@@ -13,43 +13,38 @@ class LocationMapPage_Controller extends Page_Controller
         Requirements::javascript('http://maps.googleapis.com/maps/api/js?key=AIzaSyAAaa_ApoYASmy5j35SKI7q1UcLzvdxf2E&sensor=false');
         Requirements::javascript(MODULE_MAPPABLE_DIR.'/javascript/GoogleMapConfig.js');
         Requirements::javascriptTemplate(MODULE_MAPPABLE_DIR.'/javascript/GoogleMapConfig.js', array(
-                    'memberCount' => $this->memberCountForMap(),
-                    'members' => $this->mapMemberData(),
-                    ));
+         'members' => $this->mapMemberData(),
+      	));
         Requirements::css(MODULE_MAPPABLE_DIR.'/css/mappable.css');
-                //self::convertAddressToPoint();
-					 self::MapMemberData();
+      	//self::convertAddressToPoint();
+         self::mapMemberData();
     }
 
-	 private static $allowed_actions = array(
-		 'memberCountForMap',
-		 'mapMemberData'
-	 );
+    private static $allowed_actions = array(
+         'mapMemberData',
+     );
 
-    public function memberCountForMap()
+    public function mapMemberData()
     {
-        $members = Member::get();
-        $memberCount = $members->Count();
-
-        return $memberCount;
+        $infoWindowList = Member::get();//->filter(array('Latitude' => 'IS NOT NULL'));
+         //Debug::show($infoWindowList);
+        if ($infoWindowList) {
+            $InfoWindows = array();
+            $count = 0;
+            foreach ($infoWindowList as $obj) {
+                $InfoWindows['Objects'][] = array(
+                              'firstname' => $obj->FirstName,
+                              'surname' => $obj->Surname,
+                              'lat' => $obj->Latitude,
+                              'long' => $obj->Longitude,
+                         );
+                ++$count;
+            }
+            $InfoWindows = Convert::array2json($InfoWindows);
+            Debug::show($InfoWindows);
+            Requirements::customScript("var infoWindowObject = $InfoWindows;");
+        }
     }
-
-	 public function mapMemberData() {
-		 // Get all the Members with Geocoding data
-		 $members = Member::get();//->filter(array('Latitude' => 'IS NOT NULL'));
-		 //$count = $members->count();
-		 $membersArray = array();
-		 foreach($members as $member){
-			 $singularMemberArray = array();
-			 array_push($singularMemberArray, $member->FirstName);
-			 array_push($singularMemberArray, $member->Surname);
-			 array_push($singularMemberArray, $member->Latitude);
-			 array_push($singularMemberArray, $member->Longitude);
-			 array_push($membersArray, $singularMemberArray);
-		 }
-		 //print_r($membersArray);
-		 return $membersArray;
-	 }
 
     public function Map()
     {

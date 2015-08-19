@@ -30,9 +30,6 @@ function initialize() {
    // Bind the map to the element on the template
 	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
-	var memberCount = '$memberCount';
-	//console.log(memberCount);
-
 	var members = '$members';
    console.log(members);
 	var membersArray = new Array();
@@ -40,7 +37,7 @@ function initialize() {
 
 	var infoObj = new google.maps.InfoWindow();
 
-	for (var i = 0; i < memberCount; i++) {
+	/*for (var i = 0; i < memberCount; i++) {
 		var location = new google.maps.LatLng(contentArray[i], contentArray[i]);
 		var marker = new google.maps.Marker({
 			position: location,
@@ -48,7 +45,7 @@ function initialize() {
 		});
 		attachInfo(contentArray, marker, i);
 	}
-
+*/
 
 	function attachInfo(contentArray, marker, i) {
 		google.maps.event.addListener(marker, 'click', function() {
