@@ -31,35 +31,26 @@ function initialize() {
 	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
 	var memberCount = '$memberCount';
-	console.log(memberCount);
+	//console.log(memberCount);
 
+	var members = '$members';
+   console.log(members);
+	var membersArray = new Array();
 
-	var latString = '$lat';
-	var latArray = new Array();
-	latArray = latString.split(",");
-
-	var lngString = '$lng';
-	var lngArray = new Array();
-	lngArray = lngString.split(",");
-
-	var contentString = '$content';
-	var contentArray = new Array();
-	contentArray = contentString.split("*");
-	console.log(contentArray);
 
 	var infoObj = new google.maps.InfoWindow();
 
 	for (var i = 0; i < memberCount; i++) {
-		var location = new google.maps.LatLng(latArray[i], lngArray[i]);
+		var location = new google.maps.LatLng(contentArray[i], contentArray[i]);
 		var marker = new google.maps.Marker({
 			position: location,
 			map: map
 		});
-		attachInfo(contentArray, latArray, lngArray, marker, i);
+		attachInfo(contentArray, marker, i);
 	}
 
 
-	function attachInfo(contentArray, latArray, lngArray, marker, i) {
+	function attachInfo(contentArray, marker, i) {
 		google.maps.event.addListener(marker, 'click', function() {
 			infoObj.close(map, marker);
 			infoObj.setContent(contentArray[i]);
