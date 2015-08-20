@@ -9,15 +9,19 @@ class LocationMapPage_Controller extends Page_Controller
     public function init()
     {
         parent::init();
+		  //self::mapMemberData();
         Requirements::javascript('framework/thirdparty/jquery/jquery.js');
         Requirements::javascript('http://maps.googleapis.com/maps/api/js?key=AIzaSyAAaa_ApoYASmy5j35SKI7q1UcLzvdxf2E&sensor=false');
-        Requirements::javascript(MODULE_MAPPABLE_DIR.'/javascript/GoogleMapConfig.js');
         Requirements::javascriptTemplate(MODULE_MAPPABLE_DIR.'/javascript/GoogleMapConfig.js', array(
-         'members' => $this->mapMemberData(),
+         	'infoWindowObject' => $this->mapMemberData(),
       	));
+
+			Requirements::javascript(MODULE_MAPPABLE_DIR.'/javascript/GoogleMapConfig.js');
+
+
         Requirements::css(MODULE_MAPPABLE_DIR.'/css/mappable.css');
       	//self::convertAddressToPoint();
-         self::mapMemberData();
+
     }
 
     private static $allowed_actions = array(
@@ -41,8 +45,9 @@ class LocationMapPage_Controller extends Page_Controller
                 ++$count;
             }
             $InfoWindows = Convert::array2json($InfoWindows);
-            Debug::show($InfoWindows);
-            Requirements::customScript("var infoWindowObject = $InfoWindows;");
+//            Debug::show($InfoWindows);
+			return $InfoWindows;
+			//Requirements::customScript("var infoWindowObject = $InfoWindows;");
         }
     }
 

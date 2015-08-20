@@ -30,31 +30,37 @@ function initialize() {
    // Bind the map to the element on the template
 	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
-	var members = '$members';
-   console.log(members);
-	var membersArray = new Array();
+   // Get the JSON object from SilverStripe
+	var members = '$infoWindowObject';
+   // Parse into a JSON object
+   var membersObj = JSON.parse(members);
+   // Count how many records to iterate over
+   var membersCount = membersObj.Objects.length;
 
+   // Instantiate the InfoWindows
+	var infoWindow = new google.maps.InfoWindow();
 
-	var infoObj = new google.maps.InfoWindow();
-
-	/*for (var i = 0; i < memberCount; i++) {
-		var location = new google.maps.LatLng(contentArray[i], contentArray[i]);
+   // Iterate over the objects in the JSON array, adding markers to the map
+	for (var i = 0; i < membersCount; i++) {
+		var location = new google.maps.LatLng(membersObj.Objects[i].lat, membersObj.Objects[i].long);
 		var marker = new google.maps.Marker({
 			position: location,
 			map: map
 		});
-		attachInfo(contentArray, marker, i);
+		attachInfo(membersObj, marker, i);
 	}
-*/
 
-	function attachInfo(contentArray, marker, i) {
+
+	function attachInfo(membersObj, marker, i) {
 		google.maps.event.addListener(marker, 'click', function() {
 			infoObj.close(map, marker);
-			infoObj.setContent(contentArray[i]);
+			infoObj.setContent(membersObj.Objects[i].firstname);
 			infoObj = new google.maps.InfoWindow({
-				content: contentArray[i]
+				content: membersObj.Objects[i].firstname
 			});
 			infoObj.open(map, marker);
 		});
 	}
+
+
 }
