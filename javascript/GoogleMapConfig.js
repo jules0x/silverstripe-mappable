@@ -41,7 +41,8 @@ function initialize() {
 	var infoWindow = new google.maps.InfoWindow();
 
    // Iterate over the objects in the JSON array, adding markers to the map
-	for (var i = 0; i < membersCount; i++) {
+	setTimeout(function(){
+      for (var i = 0; i < membersCount; i++) {
 		var location = new google.maps.LatLng(membersObj.Objects[i].lat, membersObj.Objects[i].long);
 		var marker = new google.maps.Marker({
 			position: location,
@@ -49,6 +50,7 @@ function initialize() {
 		});
 		attachInfo(membersObj, marker, i);
 	}
+}, 1000);
 
 
 	function attachInfo(membersObj, marker, i) {
