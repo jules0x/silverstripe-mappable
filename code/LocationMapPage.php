@@ -30,7 +30,7 @@ class LocationMapPage_Controller extends Page_Controller
 
     public function mapMemberData()
     {
-        $infoWindowList = Member::get()->exclude(array('Latitude' => null))->limit(20); 
+        $infoWindowList = Member::get()->exclude(array('Latitude' => null)); 
 			if ($infoWindowList) {
             $InfoWindows = array();
             $count = 0;
