@@ -36,16 +36,16 @@ function initialize() {
    var membersObj = JSON.parse(members);
    // Count how many records to iterate over
    var membersCount = membersObj.Objects.length;
-
+	console.log(membersCount);
 	var locations = new Array();
 	for (var i = 0; i < membersCount; i++) {
-		var locationArray = { };
+		var locationArray = {};
 		locationArray["lat"] = membersObj.Objects[i].lat;
 		locationArray["lng"] = membersObj.Objects[i].lng;
 		locations.push(locationArray);
 	}
 
-	console.log("hello" + locations);
+	console.log("hello" + locationArray);
 
 	var markers = [];
 
@@ -55,7 +55,7 @@ function initialize() {
 function drop() {
   clearMarkers();
   for (var i = 0; i < membersCount; i++) {
-    addMarkerWithTimeout(locations[i], i * 200);
+    addMarkerWithTimeout(locations[i], 200);
   }
 }
 
