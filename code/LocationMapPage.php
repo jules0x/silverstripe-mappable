@@ -1,57 +1,45 @@
 <?php
 
-class LocationMapPage extends Page
-{
+class LocationMapPage extends Page {
 }
 
-class LocationMapPage_Controller extends Page_Controller
-{
-    public function init()
-    {
-        parent::init();
-		  //self::mapMemberData();
-        Requirements::javascript('framework/thirdparty/jquery/jquery.js');
-        Requirements::javascript('http://maps.googleapis.com/maps/api/js?key=AIzaSyAAaa_ApoYASmy5j35SKI7q1UcLzvdxf2E&sensor=false');
-        Requirements::javascriptTemplate(MODULE_MAPPABLE_DIR.'/javascript/GoogleMapConfig.js', array(
-         	'infoWindowObject' => $this->mapMemberData(),
-      	));
+class LocationMapPage_Controller extends Page_Controller {
+	public function init() {
+		parent::init();
 
-			Requirements::javascript(MODULE_MAPPABLE_DIR.'/javascript/GoogleMapConfig.js');
+		Requirements::javascript(MODULE_MAPPABLE_DIR . '/javascript/jquery-2.1.4.min.js');
+		Requirements::javascript('https://maps.googleapis.com/maps/api/js?key=AIzaSyAAaa_ApoYASmy5j35SKI7q1UcLzvdxf2E');
+		Requirements::javascript(MODULE_MAPPABLE_DIR . '/javascript/GoogleMapConfig.js');
 
+		Requirements::css(MODULE_MAPPABLE_DIR . '/css/mappable.css');
 
-        Requirements::css(MODULE_MAPPABLE_DIR.'/css/mappable.css');
-      	//self::convertAddressToPoint();
+	}
 
-    }
+	private static $allowed_actions = array(
+		'locationData'
+	);
 
-    private static $allowed_actions = array(
-         'mapMemberData',
-     );
+	public function locationData() {
+		$infoWindowList = Location::get()->exclude(array('lat' => null, 'lng' => null))->limit(8);
+		if ($infoWindowList) {
 
-    public function mapMemberData()
-    {
-        $infoWindowList = Member::get()->exclude(array('Latitude' => null))->limit(8);
-			if ($infoWindowList) {
-            $InfoWindows = array();
-            $count = 0;
-            foreach ($infoWindowList as $obj) {
-                $InfoWindows['Objects'][] = array(
-                              'firstname' => $obj->FirstName,
-                              'surname' => $obj->Surname,
-                              'lat' => $obj->Latitude,
-                              'long' => $obj->Longitude,
-                         );
-                ++$count;
-            }
-            $InfoWindows = Convert::array2json($InfoWindows);
-            Debug::show($InfoWindows);
+			$InfoWindows = array();
+
+			foreach ($infoWindowList as $obj) {
+				$InfoWindows[] = array(
+					'lat' => $obj->lat,
+					'lng' => $obj->lng,
+					'info' => $obj->InfoWindow
+				);
+			}
+			$InfoWindows = Convert::array2json($InfoWindows);
+
 			return $InfoWindows;
-			//Requirements::customScript("var infoWindowObject = $InfoWindows;");
-        }
-    }
 
-    public function Map()
-    {
-        return '<div id="map_canvas"></div>';
-    }
+		}
+	}
+
+	public function Map() {
+		return '<div id="map_canvas"></div>';
+	}
 }

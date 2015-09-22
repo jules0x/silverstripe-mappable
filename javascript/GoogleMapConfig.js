@@ -1,156 +1,73 @@
-window.onload = initialize();
+$(function () {
+    initialize();
+});
 
-function detectBrowser() {
-   // Make everything look cool across all devices
-	var useragent = navigator.userAgent;
-	var mapdiv = document.getElementById("map_canvas");
-
-	if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1) {
-		mapdiv.style.width = '100%';
-		mapdiv.style.height = '100%';
-	} else {
-		mapdiv.style.width = '600px';
-		mapdiv.style.height = '800px';
-	}
-}
-
-// create the map object
-var map;
+var markers = [];
 
 function initialize() {
-   // Set the centre of the map, in this case it's New Zealand (TODO: Make this configurable through admin)
-	var myLatlng = new google.maps.LatLng(-41.07935114946898, 172.46337890625);
-	var mapOptions = {
-      // Set the zoom to level 5
-		zoom: 5,
-		center: myLatlng,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	}
 
-   // Bind the map to the element on the template
-	var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    detectBrowser();
 
-   // Get the JSON object from SilverStripe
-	var members = '$infoWindowObject';
-   // Parse into a JSON object
-   var membersObj = JSON.parse(members);
-   // Count how many records to iterate over
-   var membersCount = membersObj.Objects.length;
-	console.log(membersCount);
-	var locations = new Array();
-	for (var i = 0; i < membersCount; i++) {
-		var locationArray = {};
-		locationArray["lat"] = membersObj.Objects[i].lat;
-		locationArray["lng"] = membersObj.Objects[i].lng;
-		locations.push(locationArray);
-	}
+    var mapInitialView = {
+        center: {
+            lat: -41.07935114946898,
+            lng: 172.46337890625
+        },
+        zoom: 6,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapInitialView);
 
-	console.log("hello" + locationArray);
+    var infowindow = new google.maps.InfoWindow({
+        content: ''
+    });
 
-	var markers = [];
+    $.ajax({
+        url: window.location.href + 'locationData',
+        type: 'GET',
+        success: function (result) {
+            var locations = JSON.parse(result);
 
+            for (var i = 0, length = locations.length; i < length; i++) {
 
+                var locationData = locations[i];
+                var latLng = new google.maps.LatLng(locationData.lat, locationData.lng);
 
-
-function drop() {
-  clearMarkers();
-  for (var i = 0; i < membersCount; i++) {
-    addMarkerWithTimeout(locations[i], 200);
-  }
+                addMarkerWithTimeout(latLng, map, infowindow, locationData, i * 400);
+            }
+        }
+    });
 }
 
-function addMarkerWithTimeout(position, timeout) {
-  window.setTimeout(function() {
-    markers.push(new google.maps.Marker({
-      position: position,
-      map: map,
-      animation: google.maps.Animation.DROP
-    }));
-  }, timeout);
+function detectBrowser() {
+    // Make everything look cool across all devices
+    var useragent = navigator.userAgent;
+    var mapdiv = document.getElementById("map_canvas");
+
+    if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1) {
+        mapdiv.style.width = '100%';
+        mapdiv.style.height = '100%';
+    } else {
+        mapdiv.style.width = '600px';
+        mapdiv.style.height = '800px';
+    }
 }
 
-function clearMarkers() {
-  for (var i = 0; i < membersCount; i++) {
-    markers[i].setMap(null);
-  }
-  markers = [];
+function addMarkerWithTimeout(position, map, infowindow, location, timeout) {
+    window.setTimeout(function () {
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            animation: google.maps.Animation.DROP
+        });
+        markers.push(marker);
+        bindInfoWindow(marker, map, infowindow, location.info);
+    }, timeout);
 }
 
-
+function bindInfoWindow(marker, map, infowindow, description) {
+    google.maps.event.addListener(marker, 'click', function () {
+        infowindow.setContent(description);
+        infowindow.open(map, marker);
+    });
 }
-
-
-
-/*
-
-	function dropMarkers() {
-
-		    setTimeout(function(){
-				 for (var i =0; i < membersCount; i++) {
-				 var location = new google.maps.LatLng(membersObj.Objects[i].lat, membersObj.Objects[i].long);
-		  	  var marker = new google.maps.Marker({
-		  		 position: location,
-		  		 title: membersObj.Objects[i].firstname,
-		  		 animation: google.maps.Animation.DROP
-		  	  });
-		  	  marker.setMap(map);
-		  }
-			 }, 2000);
-	  } */
-
-
-
-
-	 /* function makeMarkers() {
-	  var location = new google.maps.LatLng(membersObj.Objects[i].lat, membersObj.Objects[i].long);
-	  var marker = new google.maps.Marker({
-		 position: location,
-		 title: membersObj.Objects[i].firstname,
-		 animation: google.maps.Animation.DROP
-	  });
-	  marker.setMap(map);
-  } */
-/*
-
-	dropMarkers();
-
-
-
-
-
-
-   // Instantiate the InfoWindows
-	var infoWindow = new google.maps.InfoWindow();
-}
-*/
-/*
-function drop() {
-  for (var i =0; i < membersCount; i++) {
-    setTimeout(function() {
-      addMarkerMethod();
-    }, i * 200);
-  }
-}
-
-// Iterate over the objects in the JSON array, adding markers to the map
-function addMarkerMethod(i){
-	var location = new google.maps.LatLng(membersObj.Objects[i].lat, membersObj.Objects[i].long);
-	var marker = new google.maps.Marker({
-		position: location,
-		map: map
-	});
-	//attachInfo(membersObj, marker, i);
-}
-
-
-	function attachInfo(membersObj, marker, i) {
-		google.maps.event.addListener(marker, 'click', function() {
-			infoObj.close(map, marker);
-			infoObj.setContent(membersObj.Objects[i].firstname);
-			infoObj = new google.maps.InfoWindow({
-				content: membersObj.Objects[i].firstname
-			});
-			infoObj.open(map, marker);
-		});
-	}
-*/

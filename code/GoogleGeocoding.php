@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A utility class for geocoding addresses using the google maps API.
  *
@@ -12,15 +13,15 @@ class GoogleGeocoding {
 	 * Convert an address into a latitude and longitude.
 	 *
 	 * @param  string $address The address to geocode.
-	 * @param  string $region  An optional two letter region code.
+	 * @param  string $region An optional two letter region code.
 	 * @return array An associative array with lat and lng keys.
 	 */
 	public static function address_to_point($address, $region = null) {
 		$service = new RestfulService(self::API_URL);
 		$service->setQueryString(array(
 			'address' => $address,
-			'sensor'  => 'false',
-			'region'  => $region
+			'sensor' => 'false',
+			'region' => $region
 		));
 		$response = $service->request()->simpleXML();
 
@@ -30,8 +31,8 @@ class GoogleGeocoding {
 
 		$location = $response->result->geometry->location;
 		return array(
-			'Latitude' => (float) $location->lat,
-			'Longitude' => (float) $location->lng
+			'Latitude' => (float)$location->lat,
+			'Longitude' => (float)$location->lng
 		);
 	}
 
