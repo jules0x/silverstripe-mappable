@@ -41,14 +41,12 @@ class Location extends DataObject {
 		// TODO: Reinstate the checks below
 		parent::onBeforeWrite();
 
-//		if (!$this->lat || !$this->lng || $this->isChanged('Address1')) {
+		if (!$this->lat || !$this->lng || $this->isChanged('Address1')) {
 
-		if (!$this->lat || !$this->lng) {
-			if ($this->Address1) {
-			//if ($this->Address1 && $this->Suburb && $this->Region) {
+			if ($this->Address1 && $this->Suburb && $this->Region) {
 				// Get the member's address
-				//$address = $this->Address1 . ' ' . $this->Suburb . ' ' . $this->Region;
-				$address = $this->Address1;
+				$address = $this->Address1 . ' ' . $this->Suburb . ' ' . $this->Region;
+				//$address = $this->Address1;
 				// Run it through GoogleGeocoding's address_to_point function (RestfulService/XML)
 				$point = GoogleGeocoding::address_to_point($address);
 				// Set the lat and Longitude values with the response
