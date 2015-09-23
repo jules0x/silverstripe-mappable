@@ -27,7 +27,6 @@ function initialize() {
         type: 'GET',
         success: function (result) {
             var locations = JSON.parse(result);
-				console.log(locations);
 
             for (var i = 0, length = locations.length; i < length; i++) {
 

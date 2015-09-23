@@ -21,7 +21,7 @@ class LocationMapPage_Controller extends Page_Controller {
 	);
 
 	public function locationData() {
-		$infoWindowList = Location::get()->exclude(array('lat' => null, 'lng' => null))->limit(1);
+		$infoWindowList = Location::get()->exclude(array('lat' => null, 'lng' => null))->limit(8);
       //Debug::show($infoWindowList);
 		if ($infoWindowList) {
 
@@ -31,7 +31,7 @@ class LocationMapPage_Controller extends Page_Controller {
 				$InfoWindows[] = array(
 					'lat' => $obj->lat,
 					'lng' => $obj->lng,
-					'info' => $obj->InfoWindow
+					'info' => $obj->Name . "<br />" . $obj->InfoWindow
 				);
 			}
 			$InfoWindows = Convert::array2json($InfoWindows);

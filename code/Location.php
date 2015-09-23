@@ -38,6 +38,8 @@ class Location extends DataObject {
 	}
 
 	public function onBeforeWrite() {
+		parent::onBeforeWrite();
+
 //		if (!$this->lat || !$this->lng || $this->isChanged('Address1')) {
 
 		if (!$this->lat || !$this->lng) {
@@ -52,7 +54,6 @@ class Location extends DataObject {
 				$this->lat = $point['Latitude'];
 				$this->lng = $point['Longitude'];
 			}
-			parent::onBeforeWrite();
 		}
 	}
 
