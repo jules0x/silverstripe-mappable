@@ -21,7 +21,7 @@ class LocationMapPage_Controller extends Page_Controller {
 	);
 
 	public function locationData() {
-		$infoWindowList = Location::get()->exclude(array('lat' => null, 'lng' => null))->limit(8);
+		$infoWindowList = Location::get()->exclude(array('lat' => null, 'lng' => null));
       //Debug::show($infoWindowList);
 		if ($infoWindowList) {
 

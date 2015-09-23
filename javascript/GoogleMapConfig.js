@@ -33,7 +33,7 @@ function initialize() {
                 var locationData = locations[i];
                 var latLng = new google.maps.LatLng(locationData.lat, locationData.lng);
 
-                addMarkerWithTimeout(latLng, map, infowindow, locationData, i * 400);
+                addMarkerWithTimeout(latLng, map, infowindow, locationData, i * 100);
             }
         }
     });
