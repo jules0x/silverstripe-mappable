@@ -38,6 +38,7 @@ class Location extends DataObject {
 	}
 
 	public function onBeforeWrite() {
+		// TODO: Reinstate the checks below
 		parent::onBeforeWrite();
 
 //		if (!$this->lat || !$this->lng || $this->isChanged('Address1')) {
