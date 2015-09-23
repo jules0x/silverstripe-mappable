@@ -13,7 +13,7 @@ function initialize() {
             lat: -41.07935114946898,
             lng: 172.46337890625
         },
-        zoom: 6,
+        zoom: 5,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"), mapInitialView);
@@ -27,6 +27,7 @@ function initialize() {
         type: 'GET',
         success: function (result) {
             var locations = JSON.parse(result);
+				console.log(locations);
 
             for (var i = 0, length = locations.length; i < length; i++) {
 
@@ -48,8 +49,8 @@ function detectBrowser() {
         mapdiv.style.width = '100%';
         mapdiv.style.height = '100%';
     } else {
-        mapdiv.style.width = '600px';
-        mapdiv.style.height = '800px';
+        mapdiv.style.width = '100%';
+        mapdiv.style.height = '500px';
     }
 }
 

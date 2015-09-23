@@ -12,6 +12,7 @@ class LocationMapPage_Controller extends Page_Controller {
 		Requirements::javascript(MODULE_MAPPABLE_DIR . '/javascript/GoogleMapConfig.js');
 
 		Requirements::css(MODULE_MAPPABLE_DIR . '/css/mappable.css');
+      self::locationData();
 
 	}
 
@@ -20,7 +21,8 @@ class LocationMapPage_Controller extends Page_Controller {
 	);
 
 	public function locationData() {
-		$infoWindowList = Location::get()->exclude(array('lat' => null, 'lng' => null))->limit(8);
+		$infoWindowList = Location::get()->exclude(array('lat' => null, 'lng' => null))->limit(1);
+      //Debug::show($infoWindowList);
 		if ($infoWindowList) {
 
 			$InfoWindows = array();
