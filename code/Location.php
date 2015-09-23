@@ -8,6 +8,7 @@ class Location extends DataObject {
 		'Suburb' => 'Varchar',
 		'City' => 'Varchar',
 		//'Region' => "Enum('Northland,Auckland,Coromandel,Waikato,Bay Of Plenty,East Cape,Taupo,King Country,Taranaki,Hawkes Bay,Wanganui,Wellington,Wairarapa,Nelson,Marlborough,West Coast,Canterbury,Otago,Southland', 'Auckland')",
+		//TODO: Use nzregiondropdownfield module?
 		'Region' => "Enum('Auckland,Bay Of Plenty,Canterbury,Coromandel,East Cape,Hawkes Bay,King Country,Marlborough,Nelson,Northland,Otago,Southland,Taranaki,Taupo,Waikato,Wairarapa,Wanganui,Wellington,West Coast', 'Auckland')",
 		'InfoWindow' => 'HTMLText',
 		'lat' => 'Double',
@@ -40,16 +41,16 @@ class Location extends DataObject {
 	public function onBeforeWrite() {
 		// TODO: Reinstate the checks below
 		parent::onBeforeWrite();
-
+		// If the record doesn't have Lat/Lng OR the address has changed, get a new geolocation
 		if (!$this->lat || !$this->lng || $this->isChanged('Address1')) {
-
+			// If the record has an address, suburb and region, retrieve the geolocation (line 52)
 			if ($this->Address1 && $this->Suburb && $this->Region) {
 				// Get the member's address
 				$address = $this->Address1 . ' ' . $this->Suburb . ' ' . $this->Region;
 				//$address = $this->Address1;
 				// Run it through GoogleGeocoding's address_to_point function (RestfulService/XML)
 				$point = GoogleGeocoding::address_to_point($address);
-				// Set the lat and Longitude values with the response
+				// Set the lat and lng values with the response
 				$this->lat = $point['Latitude'];
 				$this->lng = $point['Longitude'];
 			}
