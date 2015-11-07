@@ -38,7 +38,7 @@ function bigMap() {
    }
 
    function smallMap() {
-      
+
          // set viewport for device (see below)
          // detectBrowser();
 
@@ -60,5 +60,10 @@ function bigMap() {
                  title: 'Hello World!'
 
         });
+
+       /* var ctaLayer = new google.maps.KmlLayer({
+          url: 'http://tane.novaweb.nz/assets/PotentialVegetation.kml',
+          map: map
+       }); */
 
       }
