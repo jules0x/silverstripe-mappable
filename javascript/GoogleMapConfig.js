@@ -22,7 +22,7 @@ function bigMap() {
                lat: $lat,
                lng: $lng
            },
-           zoom: 18,
+           zoom: 15,
            mapTypeId: google.maps.MapTypeId.SATELLITE
        };
        // get the map element
@@ -38,7 +38,7 @@ function bigMap() {
    }
 
    function smallMap() {
-      alert("Yep");
+      
          // set viewport for device (see below)
          // detectBrowser();
 

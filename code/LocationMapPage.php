@@ -47,6 +47,10 @@ class LocationMapPage_Controller extends Page_Controller {
 		}
 	}
 
+	public function LocationInfo() {
+		return Location::get()->exclude(array('lat' => null, 'lng' => null))->first();
+	}
+
 	public function BigMap() {
 		// The element to house the map
 		return '<div id="map_canvas"></div>';

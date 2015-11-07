@@ -1,4 +1,19 @@
 #map_canvas, #map_canvas_small {
    height: 300px;
-   width: 50%;
+   width: 100%;
+}
+
+.content {
+   overflow: hidden;
+   margin: auto 0;
+}
+
+.content .left {
+   float:left;
+   width: 35%;
+}
+
+.content .right {
+   float:right;
+   width: 65%;
 }

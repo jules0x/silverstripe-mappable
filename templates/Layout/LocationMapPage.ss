@@ -5,8 +5,11 @@
 
         <div class="content">
 			$Content
-			$BigMap
-         $SmallMap
+
+
+
+            $BigMap
+
         </div>
     </article>
 	$Form
