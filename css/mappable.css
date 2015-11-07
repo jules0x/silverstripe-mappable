@@ -1,3 +1,4 @@
-#map_canvas {
-   height: 500px;
+#map_canvas, #map_canvas_small {
+   height: 300px;
+   width: 50%;
 }
