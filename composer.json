@@ -12,9 +12,9 @@
     "issues": "https://github.com/joshkosmala/silverstripe-mappable/issues"
   },
   "require": {
-    "silverstripe/cms": "~3.1",
-    "silverstripe/framework": "~3.1",
-    "silverstripe-australia/gridfieldextensions": "*"
+    "silverstripe/cms": "^3.6",
+    "silverstripe/framework": "^3.6",
+    "symbiote/gridfieldextensions": "1.4"
   },
   "extra": {
     "installer-name": "mappable"
